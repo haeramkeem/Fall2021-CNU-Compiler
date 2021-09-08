@@ -11,13 +11,13 @@ public class Parser {
 
     public String parse() {
         Lexeme t;
-        String res = "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n";
+        String res = "#include <stdio.h>\n#include <stdlib.h>\n\nint main() {";
         boolean isMov = false;
         while(true) {
             t = l.scanner();
             switch(t.getId()) {
                 case TOPEN_BRACKET :
-                    res += "\n";
+                    res += "\n\t";
                     break;
                 case TCLOSE_BRACKET :
                     res += "\");";
@@ -27,25 +27,27 @@ public class Parser {
                     res += isMov ? "echo \"" : "printf(\"";
                     break;
                 case TLIST_DIR :
-                    res += (isMov ? "" : "system(\"") + "ls -al";
+                    res += (isMov ? "" : "system(\"") + "ls -al ";
                     break;
                 case TDEL :
-                    res += (isMov ? "" : "system(\"") + "rm -rf";
+                    res += (isMov ? "" : "system(\"") + "rm -rf ";
                     break;
                 case TMOV :
                     res += "system(\"";
                     isMov = true;
                     break;
                 case TSHOW :
-                    res += (isMov ? "" : "system(\"") + "cat";
+                    res += (isMov ? "" : "system(\"") + "cat ";
                     break;
                 case TVALUE :
-                    res += (isMov ? ">" : "") + t.getVal();
+                    res += (isMov ? "> " : "") + t.getVal();
                     break;
                 case TERROR :
+                    l.closeReader();
                     return "";
                 case TNULL :
-                    return res;
+                    l.closeReader();
+                    return res + "\n\treturn 0;\n}";
             }
         }
     }
