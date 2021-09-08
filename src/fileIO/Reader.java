@@ -1,17 +1,19 @@
 package fileIO;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PushbackInputStream;
 
 public class Reader {
-	private FileReader freader;
+	private PushbackInputStream istream;
 
 	public Reader(String fname) {
         try{
         	File file = new File("Fall2021-CNU-Compiler-termproject/input/" + fname);
-        	this.freader = new FileReader(file);
+        	this.istream = new PushbackInputStream(new BufferedInputStream(new FileInputStream(file)));
         }catch (FileNotFoundException e) {
             e.getStackTrace();
             System.err.println("File not found exception while creating Reader object");
@@ -20,7 +22,7 @@ public class Reader {
 	
 	public void close() {
 		try {
-			this.freader.close();
+			this.istream.close();
         }catch(IOException e){
             e.getStackTrace();
             System.err.println("IO exception while running Reader.close()");
@@ -30,11 +32,21 @@ public class Reader {
 	public char next() {
 		int ch = -1;
 		try {
-			ch = this.freader.read();
+			ch = this.istream.read();
         }catch(IOException e){
             e.getStackTrace();
 			System.err.println("IO exception while running Reader.next()");
         }
 		return ch == -1 ? '\0' : (char)ch;
+	}
+
+	public void ungetc(char ch) {
+		char[] temp = {ch};
+		try {
+			this.istream.unread(new String(temp).getBytes());
+		} catch(IOException e) {
+            e.getStackTrace();
+			System.err.println("IO exception while running Reader.ungetc()");
+		}
 	}
 }
