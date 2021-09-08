@@ -9,7 +9,7 @@ public class Writer {
 
 	public Writer(String fname) {
 		try {
-		    this.ostream = new FileOutputStream("src/dist/" + fname);
+		    this.ostream = new FileOutputStream("Fall2021-CNU-Compiler-termproject/src/dist/" + fname);
 		} catch(IOException e) {
 	        e.getStackTrace();
 			

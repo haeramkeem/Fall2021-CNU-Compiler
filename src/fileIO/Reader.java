@@ -11,7 +11,8 @@ public class Reader {
 
 	public Reader(String fname) {
         try{
-        	this.file = new File("src/src/" + fname);
+        	this.file = new File("Fall2021-CNU-Compiler-termproject/src/src/" + fname);
+			System.out.println(file.getAbsolutePath());
         	this.freader = new FileReader(file);
         }catch (FileNotFoundException e) {
             e.getStackTrace();
