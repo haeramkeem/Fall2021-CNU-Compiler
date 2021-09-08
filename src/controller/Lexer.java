@@ -14,6 +14,7 @@ public class Lexer {
     public Lexeme scanner() {
         char ch = this.r.next();
         if(ch != '\0') {
+            System.out.print(ch);
             switch(ch) {
                 case '(' : return new Lexeme(TokenId.TOPEN_BRACKET, "");
                 case ')' : return new Lexeme(TokenId.TCLOSE_BRACKET, "");
@@ -51,8 +52,9 @@ public class Lexer {
 	private String beforeWhitespace() {
 		String res = "";
 		char ch = this.r.next();
-		while(ch != '\0' || ch != ' ' || ch != '\t' || ch != '\n') {
+		while(ch != '\0' && ch != ' ' && ch != '\t' && ch != '\n') {
 			res += ch;
+            ch = this.r.next();
 		}
 		return res;
 	}
@@ -60,8 +62,9 @@ public class Lexer {
     private String beforeDoubleQuotationMarks() {
 		String res = "";
 		char ch = this.r.next();
-		while(ch != '\0' || ch != '\"') {
+		while(ch != '\0' && ch != '\"') {
 			res += ch;
+            ch = this.r.next();
 		}
 		return res;
     }
