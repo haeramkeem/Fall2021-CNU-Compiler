@@ -1,27 +1,40 @@
 package fileIO;
 
-import java.io.FileOutputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 
 public class Writer {
-	private OutputStream ostream;
+	private  FileWriter fwriter;
 
 	public Writer(String fname) {
 		try {
-		    this.ostream = new FileOutputStream("Fall2021-CNU-Compiler-termproject/src/dist/" + fname);
+			File file = new File("Fall2021-CNU-Compiler-termproject/output/" + fname);
+			if(!file.exists()) {
+				file.createNewFile();
+			}
+			this.fwriter = new FileWriter(file);
 		} catch(IOException e) {
 	        e.getStackTrace();
-			
+			System.err.println("IO exception while creating Writer object");
 		}
 	}
 	
 	public void write(String content) {
 		try {
-		    this.ostream.write(content.getBytes());
+		    this.fwriter.write(content);
 		} catch(IOException e) {
 	        e.getStackTrace();
-			System.out.println("IO exception while running Write.write()");
+			System.err.println("IO exception while running Write.write()");
+		}
+	}
+
+	public void close() {
+		try {
+			this.fwriter.close();
+		} catch(IOException e) {
+	        e.getStackTrace();
+			System.err.println("IO exception while running Write.close()");
 		}
 	}
 }

@@ -6,17 +6,15 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Reader {
-	private File file;
 	private FileReader freader;
 
 	public Reader(String fname) {
         try{
-        	this.file = new File("Fall2021-CNU-Compiler-termproject/src/src/" + fname);
-			System.out.println(file.getAbsolutePath());
+        	File file = new File("Fall2021-CNU-Compiler-termproject/input/" + fname);
         	this.freader = new FileReader(file);
         }catch (FileNotFoundException e) {
             e.getStackTrace();
-            System.out.println("File not found exception while creating Reader object");
+            System.err.println("File not found exception while creating Reader object");
         }
 	}
 	
@@ -25,7 +23,7 @@ public class Reader {
 			this.freader.close();
         }catch(IOException e){
             e.getStackTrace();
-            System.out.println("IO exception while running Reader.close()");
+            System.err.println("IO exception while running Reader.close()");
         }
 	}
 	
@@ -35,7 +33,7 @@ public class Reader {
 			ch = this.freader.read();
         }catch(IOException e){
             e.getStackTrace();
-			System.out.println("IO exception while running Reader.next()");
+			System.err.println("IO exception while running Reader.next()");
         }
 		return ch == -1 ? '\0' : (char)ch;
 	}
