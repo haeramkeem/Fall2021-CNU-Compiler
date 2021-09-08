@@ -12,30 +12,29 @@ public class Lexer {
     }
 
     public Lexeme scanner() {
-        char ch = this.r.next();
-        if(ch != '\0') {
-            System.out.print(ch);
+        char ch;
+        while((ch = this.r.next()) != '\0') {
             switch(ch) {
                 case '(' : return new Lexeme(TokenId.TOPEN_BRACKET, "");
                 case ')' : return new Lexeme(TokenId.TCLOSE_BRACKET, "");
                 case 'e' :
-                    if(this.beforeWhitespace() == "cho") {
+                    if(this.getRestCommand().equals("cho")) {
                         return new Lexeme(TokenId.TECHO, "");
                     }
                 case 'l' :
-                    if(this.beforeWhitespace() == "ist_dir") {
+                    if(this.getRestCommand().equals("ist_dir")) {
                         return new Lexeme(TokenId.TLIST_DIR, "");
                     }
                 case 'd' :
-                    if(this.beforeWhitespace() == "el") {
+                    if(this.getRestCommand().equals("el")) {
                         return new Lexeme(TokenId.TDEL, "");
                     }
                 case 'm' :
-                    if(this.beforeWhitespace() == "ov") {
+                    if(this.getRestCommand().equals("ov")) {
                         return new Lexeme(TokenId.TMOV, "");
                     }
                 case 's' :
-                    if(this.beforeWhitespace() == "how") {
+                    if(this.getRestCommand().equals("how")) {
                         return new Lexeme(TokenId.TSHOW, "");
                     }
                 case '\"' :
@@ -49,13 +48,20 @@ public class Lexer {
         return new Lexeme(TokenId.TNULL, "");
     }
 
-	private String beforeWhitespace() {
+    public void closeReader() {
+        this.r.close();
+    }
+
+	private String getRestCommand() {
 		String res = "";
 		char ch = this.r.next();
-		while(ch != '\0' && ch != ' ' && ch != '\t' && ch != '\n') {
+		while(ch != '\0' && ch != ' ' && ch != '\t' && ch != '\n' && ch != ')' && ch != '\"') {
 			res += ch;
             ch = this.r.next();
 		}
+        if(ch == ')' || ch == '\"') {
+            this.r.ungetc(ch);
+        }
 		return res;
 	}
 
