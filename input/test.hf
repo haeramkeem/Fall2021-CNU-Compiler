@@ -1,7 +1,7 @@
 (echo "Hello world!")
 (list_dir)
 (echo "delete test.txt")
-(del "test.txt")
 (mov list_dir "res")
 (echo "*********test.txt********")
 (show "test.txt")
+(del "test.txt")
