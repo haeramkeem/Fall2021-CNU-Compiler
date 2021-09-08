@@ -11,8 +11,8 @@ public class Writer {
 		try {
 		    this.ostream = new FileOutputStream("src/dist/" + fname);
 		} catch(IOException e) {
-			System.out.println("fuck");
 	        e.getStackTrace();
+			
 		}
 	}
 	
@@ -20,8 +20,8 @@ public class Writer {
 		try {
 		    this.ostream.write(content.getBytes());
 		} catch(IOException e) {
-			System.out.println("fuck1");
 	        e.getStackTrace();
+			System.out.println("IO exception while running Write.write()");
 		}
 	}
 }

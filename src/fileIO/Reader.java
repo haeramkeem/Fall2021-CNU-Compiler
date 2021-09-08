@@ -11,13 +11,11 @@ public class Reader {
 
 	public Reader(String fname) {
         try{
-        	//파일 객체 생성
         	this.file = new File("src/src/" + fname);
-        	//입력 스트림 생성
         	this.freader = new FileReader(file);
         }catch (FileNotFoundException e) {
             e.getStackTrace();
-            System.out.println("File not found");
+            System.out.println("File not found exception while creating Reader object");
         }
 	}
 	
@@ -26,7 +24,7 @@ public class Reader {
 			this.freader.close();
         }catch(IOException e){
             e.getStackTrace();
-            System.out.println("IO excption");
+            System.out.println("IO exception while running Reader.close()");
         }
 	}
 	
@@ -36,7 +34,7 @@ public class Reader {
 			ch = this.freader.read();
         }catch(IOException e){
             e.getStackTrace();
-            System.out.println("IO excption");
+			System.out.println("IO exception while running Reader.next()");
         }
 		return ch == -1 ? '\0' : (char)ch;
 	}
