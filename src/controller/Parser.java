@@ -26,14 +26,14 @@ public class Parser {
                 case TSHOW :
                 case TDEL :
                 cur.setSelf(t);
-                cur.setFirstChild(new ASTNode());
+                cur.setFirstChild(new ASTNode(cur));
                 cur = cur.getFirstChild();
                 break;
 
                 case TLIST_DIR :
                 cur.setSelf(t);
                 ASTNode originOfListDir = findOriginNode(cur, originTokenId);
-                originOfListDir.setSecondChild(new ASTNode());
+                originOfListDir.setSecondChild(new ASTNode(originOfListDir));
                 cur = originOfListDir.getSecondChild();
                 break;
 
@@ -43,13 +43,13 @@ public class Parser {
                 originOfValue = cur.getParent().getSecondChild() == cur
                     ? findOriginNode(cur, TokenId.TOPEN_BRACKET)
                     : findOriginNode(cur, originTokenId);
-                originOfValue.setSecondChild(new ASTNode());
+                originOfValue.setSecondChild(new ASTNode(originOfValue));
                 cur = originOfValue.getSecondChild();
                 break;
 
                 case TMOV :
                 cur.setSelf(t);
-                cur.setFirstChild(new ASTNode());
+                cur.setFirstChild(new ASTNode(cur));
                 cur = cur.getFirstChild();
                 originTokenId = TokenId.TMOV;
                 break;

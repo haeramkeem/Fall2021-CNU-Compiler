@@ -5,9 +5,8 @@ public class ASTNode {
     private ASTNode parent, fchild, schild;
 
     public ASTNode() {}
-    public ASTNode(ASTNode parent, Lexeme self) {
+    public ASTNode(ASTNode parent) {
         this.parent = parent;
-        this.self = self;
     }
 
     public void setSelf(Lexeme src) {
