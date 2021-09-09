@@ -1,6 +1,6 @@
 package main;
 
-import controller.Parser;
+import controller.SemanticAnalyser;
 import fileIO.Writer;
 
 /**
@@ -13,9 +13,9 @@ import fileIO.Writer;
  */
 public class Compiler {
     public static void main(String[] args) {
-        Parser p = new Parser("test.hf"); // input/test.hf 파일을 읽어 파싱하는 Parser 객체 생성
+        SemanticAnalyser s = new SemanticAnalyser("test.hf"); // input/test.hf 파일을 읽어 컴파일 하는 SementicAnalyser 객체 생성
     	Writer w = new Writer("test.c"); // output/test.c 파일에 쓰는 Writer 객체 생성
-    	w.write(p.parse()); // 파싱한 후 쓰기
+    	w.write(s.analyse()); // 파싱한 후 쓰기
         w.close(); // 파일 닫기
     }
 }
