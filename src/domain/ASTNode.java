@@ -1,19 +1,28 @@
 package domain;
 
 public class ASTNode {
-    private Lexeme self, fchild, schild;
+    private Lexeme self;
+    private ASTNode parent, fchild, schild;
 
-    public ASTNode(Lexeme self) {
+    public ASTNode() {}
+    public ASTNode(ASTNode parent, Lexeme self) {
+        this.parent = parent;
         this.self = self;
-        this.fchild = null;
-        this.schild = null;
     }
 
-    public void setFirstChild(Lexeme src) {
+    public void setSelf(Lexeme src) {
+        this.self = src;
+    }
+
+    public void setParent(ASTNode src) {
+        this.parent = src;
+    }
+
+    public void setFirstChild(ASTNode src) {
         this.fchild = src;
     }
 
-    public void setSecondChild(Lexeme src) {
+    public void setSecondChild(ASTNode src) {
         this.schild = src;
     }
 
@@ -21,11 +30,15 @@ public class ASTNode {
         return this.self;
     }
 
-    public Lexeme getFirstChild() {
+    public ASTNode getParent() {
+        return this.parent;
+    }
+
+    public ASTNode getFirstChild() {
         return this.fchild;
     }
 
-    public Lexeme getSecondChild() {
+    public ASTNode getSecondChild() {
         return this.schild;
     }
 }
