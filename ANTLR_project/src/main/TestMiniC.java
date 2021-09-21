@@ -7,12 +7,10 @@ import java.io.*;
 
 public class TestMiniC {
     public static void main(String[] args) throws IOException {
-        CharStream charStream = CharStreams.fromPath(new File("src/main/test.c").toPath());
+        CharStream charStream = CharStreams.fromFileName("test.c");
         main.MiniCLexer lexer = new main.MiniCLexer(charStream);
         CommonTokenStream tokens = new CommonTokenStream( lexer );
         main.MiniCParser parser = new main.MiniCParser( tokens );
-        ParseTree tree = parser.program();
-        
-        System.out.println(tree.toStringTree());
+        parser.program();
     }
 }
