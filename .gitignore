@@ -25,6 +25,10 @@ hs_err_pid*
 
 # ignore build result
 /output/
+/ANTLR_project/gen/
+
+#ignore test file
+*.c
 
 # ignore IDE settings
 /.idea/
