@@ -25,3 +25,9 @@ hs_err_pid*
 
 # ignore build result
 /output/
+
+# ignore IDE settings
+/.idea/
+*.iml
+.classpath
+.project
