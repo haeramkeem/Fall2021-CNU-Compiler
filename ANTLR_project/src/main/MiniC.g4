@@ -57,46 +57,46 @@ expr	:  LITERAL {System.out.println("201702004 Rule 14-1");}
 args	: expr (',' expr)* {System.out.println("201702004 Rule 15-1");}
 	|					 {System.out.println("201702004 Rule 15-2");};
 
-VOID: 'void' {System.out.println("201702004 Rule 16");};
-INT: 'int' {System.out.println("201702004 Rule 17");};
+VOID: 'void';
+INT: 'int';
 
-WHILE: 'while' {System.out.println("201702004 Rule 18");};
-IF: 'if' {System.out.println("201702004 Rule 19");};
-ELSE: 'else' {System.out.println("201702004 Rule 20");};
-RETURN: 'return' {System.out.println("201702004 Rule 21");};
-OR: 'or' {System.out.println("201702004 Rule 22");};
-AND: 'and' {System.out.println("201702004 Rule 23");};
-LE: '<=' {System.out.println("201702004 Rule 24");};
-GE: '>=' {System.out.println("201702004 Rule 25");};
-EQ: '==' {System.out.println("201702004 Rule 26");};
-NE: '!=' {System.out.println("201702004 Rule 27");};
+WHILE: 'while';
+IF: 'if';
+ELSE: 'else';
+RETURN: 'return';
+OR: 'or';
+AND: 'and';
+LE: '<=';
+GE: '>=';
+EQ: '==';
+NE: '!=';
 
 IDENT  : [a-zA-Z_]
         (   [a-zA-Z_]
         |  [0-9]
-        )* {System.out.println("201702004 Rule 28");};
+        )*;
 
 
-LITERAL:   DecimalConstant     |   OctalConstant     |   HexadecimalConstant     {System.out.println("201702004 Rule 29");};
+LITERAL:   DecimalConstant     |   OctalConstant     |   HexadecimalConstant     ;
 
 
 DecimalConstant
     :   '0'
 	|   [1-9] [0-9]*
-    {System.out.println("201702004 Rule 30");};
+    ;
 
 OctalConstant
     :   '0'[0-7]*
-    {System.out.println("201702004 Rule 31");};
+    ;
 
 HexadecimalConstant
     :   '0' [xX] [0-9a-fA-F] +
-    {System.out.println("201702004 Rule 32");};
+    ;
 
 WS  :   (   ' '
         |   '\t'
         |   '\r'
         |   '\n'
-        )+ {System.out.println("201702004 Rule 33");}
+        )+
 	-> channel(HIDDEN)	 
     ;

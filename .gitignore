@@ -25,13 +25,16 @@ hs_err_pid*
 
 # ignore build result
 /output/
-/ANTLR_project/gen/
+*/gen/
+*/out/
+*/META-INF/
+
 
 #ignore test file
 *.c
 
 # ignore IDE settings
-/.idea/
+*/.idea/
 *.iml
 .classpath
 .project
