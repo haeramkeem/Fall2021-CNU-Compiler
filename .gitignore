@@ -24,17 +24,19 @@ hs_err_pid*
 /bin/
 
 # ignore build result
-/output/
-*/gen/
-*/out/
-*/META-INF/
-
+output/
+gen/
+out/
+META-INF/
 
 #ignore test file
 *.c
 
 # ignore IDE settings
-*/.idea/
+.idea/
 *.iml
 .classpath
 .project
+
+# ignore OS defaults
+.DS_Store
