@@ -28,6 +28,7 @@ output/
 gen/
 out/
 META-INF/
+.antlr/
 
 #ignore test file
 *.c
