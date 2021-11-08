@@ -41,3 +41,6 @@ META-INF/
 
 # ignore OS defaults
 .DS_Store
+
+# ignore temporary files
+*.txt
