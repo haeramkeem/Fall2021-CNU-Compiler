@@ -229,6 +229,19 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	@Override
 	public void exitCompound_stmt(MiniCParser.Compound_stmtContext ctx) {
 		// <(3) Fill here>
+		String stmt = "";
+
+		// Handle `local_decl*`
+		for(int i = 0; i < ctx.local_decl().size(); i++) {
+			stmt += newTexts.get(ctx.local_decl(i));
+		}
+
+		// Handle `stmt*`
+		for(int i = 0; i < ctx.stmt().size(); i++) {
+			stmt += newTexts.get(ctx.stmt(i));
+		}
+
+		newTexts.put(ctx, stmt);
 	}
 
 	// if_stmt	: IF '(' expr ')' stmt | IF '(' expr ')' stmt ELSE stmt;
@@ -387,7 +400,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 			case "<=":
 				// <(5) Fill here>
 				expr += "isub " + "\n"
-						+ "ifle l2"+ "\n"				// Expr1 - Expr2 <= 0
+						+ "ifle l2"+ "\n"				// expr(0) - expr(1) <= 0
 						+ "ldc 0" + "\n"
 						+ "goto " + lend + "\n"
 						+ l2 + ": " + "ldc 1" + "\n"
@@ -396,7 +409,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 			case "<":
 				// <(6) Fill here>
 				expr += "isub " + "\n"
-						+ "iflt l2"+ "\n"				// Expr - Expr2 < 0
+						+ "iflt l2"+ "\n"				// expr(0) - expr(1) < 0
 						+ "ldc 0" + "\n"
 						+ "goto " + lend + "\n"
 						+ l2 + ": " + "ldc 1" + "\n"
@@ -406,7 +419,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 			case ">=":
 				// <(7) Fill here>
 				expr += "isub " + "\n"
-						+ "ifge l2"+ "\n"				// Expr1 - Expr2 >= 0
+						+ "ifge l2"+ "\n"				// expr(0) - expr(1) >= 0
 						+ "ldc 0" + "\n"
 						+ "goto " + lend + "\n"
 						+ l2 + ": " + "ldc 1" + "\n"
@@ -416,7 +429,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 			case ">":
 				// <(8) Fill here>
 				expr += "isub " + "\n"
-						+ "ifgt l2"+ "\n"				// Expr1 - Expr2 > 0
+						+ "ifgt l2"+ "\n"				// expr(0) - expr(1) > 0
 						+ "ldc 0" + "\n"
 						+ "goto " + lend + "\n"
 						+ l2 + ": " + "ldc 1" + "\n"
@@ -424,13 +437,13 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				break;
 
 			case "and":
-				expr +=  "ifne "+ lend + "\n"			// If Expr1 is true, let Expr2 decide.
+				expr +=  "ifne "+ lend + "\n"			// If expr(0) is true, let expr(1) decide.
 						+ "pop" + "\n" + "ldc 0" + "\n"	// Else, result must be false.
 						+ lend + ": " + "\n";
 				break;
 			case "or":
 				// <(9) Fill here>
-				expr +=  "ifeq "+ lend + "\n"			// If Expr1 is false, let Expr2 decide.
+				expr +=  "ifeq "+ lend + "\n"			// If expr(0) is false, let expr(1) decide.
 						+ "pop" + "\n" + "ldc 1" + "\n"	// Else, result must be true.
 						+ lend + ": " + "\n";
 				break;
