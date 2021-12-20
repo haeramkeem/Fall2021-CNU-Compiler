@@ -93,7 +93,10 @@ public class BytecodeGenListenerHelper {
 		
 		for(int i = 0; i < params.param().size(); i++) {
 			MiniCParser.Type_specContext typespec = (MiniCParser.Type_specContext)  params.param(i).getChild(0);
-			typeText += getTypeText(typespec); // + ";";
+			typeText += getTypeText(typespec);
+			if(i + 1 != params.param().size()) {
+				typeText += ", ";
+			}
 		}
 		return typeText;
 	}
