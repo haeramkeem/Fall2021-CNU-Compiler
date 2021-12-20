@@ -282,7 +282,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		String stmt = "";
 
 		if(isIntReturn(ctx)) {
-			stmt += newTexts.get(ctx.expr()) + "\n"
+			stmt += newTexts.get(ctx.expr())
 				+ "ireturn" + "\n";
 		} else if(isVoidReturn(ctx)) {
 			stmt += "return" + "\n";
