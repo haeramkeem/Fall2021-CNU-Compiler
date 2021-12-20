@@ -26,6 +26,7 @@ hs_err_pid*
 # ignore build result
 output/
 gen/
+generated/
 out/
 META-INF/
 .antlr/
