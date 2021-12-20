@@ -140,7 +140,10 @@ public class SymbolTable {
 		String res = "";
 		
 		// <(7) Fill here>
+
+		// Use BytecodeGenListenerHelper's Method to get param type text
 		argtype += getParamTypesText(ctx.params());
+		// Use BytecodeGenListenerHelper's Method to get return type text
 		rtype += getTypeText(ctx.type_spec());
 		
 		res += fname + "(" + argtype + ")" + rtype;
@@ -154,6 +157,17 @@ public class SymbolTable {
 	
 	String getVarId(String name){
 		// <(8) Fill here>
+		VarInfo lvar = _lsymtable.get(name);
+		if (lvar != null) {
+			return "" + lvar.id;
+		}
+
+		VarInfo gvar = _gsymtable.get(name);
+		if (gvar != null) {
+			return "" + gvar.id;
+		}
+
+		return null;
 	}
 	
 	Type getVarType(String name){
@@ -181,6 +195,9 @@ public class SymbolTable {
 	// global
 	public String getVarId(Var_declContext ctx) {
 		// <(9) Fill here>
+		String sname = "";
+		sname += getVarId(ctx.IDENT().getText());
+		return sname;
 	}
 
 	// local
