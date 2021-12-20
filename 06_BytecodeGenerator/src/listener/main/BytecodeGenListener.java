@@ -32,7 +32,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	// program	: decl+
 	@Override
 	public void exitProgram(MiniCParser.ProgramContext ctx) {
-		String classProlog = getFunProlog();
+		String classProlog = getClassProlog();
 
 		String fun_decl = "", var_decl = "";
 

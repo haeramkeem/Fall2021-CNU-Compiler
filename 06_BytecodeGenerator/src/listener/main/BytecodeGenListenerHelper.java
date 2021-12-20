@@ -117,13 +117,13 @@ public class BytecodeGenListenerHelper {
 		return ctx.getChildCount() < 5;
 	}
 	
-	static String getFunProlog() {
+	static String getClassProlog() {
 		// <(6) Fill in>
-		// return ".class public Test .....
-		// ...
-		// invokenonvirtual java/lang/Object/<init>()
-		// return
-		// .end method"
+		return ".class public Test ....." + "\n"
+			+ "..." + "\n"
+			+ "invokenonvirtual java/lang/Object/<init>()" + "\n"
+			+ "return" + "\n"
+			+ ".end method" + "\n";
 	}
 	
 	static String getCurrentClassName() {
