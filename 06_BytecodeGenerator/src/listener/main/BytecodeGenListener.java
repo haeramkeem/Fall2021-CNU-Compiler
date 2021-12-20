@@ -48,7 +48,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		System.out.println(newTexts.get(ctx));
 	}
 
-
 	// fun_decl	: type_spec IDENT '(' params ')' compound_stmt ;
 	@Override
 	public void enterFun_decl(MiniCParser.Fun_declContext ctx) {
@@ -66,7 +65,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		}		
 	}
 
-	
 	// var_decl	: type_spec IDENT ';'
 	// 			| type_spec IDENT '=' LITERAL ';'
 	// 			| type_spec IDENT '[' LITERAL ']' ';'
@@ -85,7 +83,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		}
 	}
 
-
 	//	local_decl	: type_spec IDENT ';'
 	//				| type_spec IDENT '=' LITERAL ';'
 	//				| type_spec IDENT '[' LITERAL ']' ';'	;
@@ -101,7 +98,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 			symbolTable.putLocalVar(getLocalVarName(ctx), Type.INT);
 		}	
 	}
-
 
 	// decl	: var_decl | fun_decl
 	@Override
@@ -170,7 +166,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 
 		newTexts.put(ctx, stmt);
 	}
-	
 
 	// fun_decl	: type_spec IDENT '(' params ')' compound_stmt
 	@Override
@@ -182,21 +177,22 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		String stmt = "";
 		if(ctx.getChildCount() == 6) {
 			stmt += fheader									// .method public static ...
-				+ newTexts.get(ctx.compound_stmt()) + "\n";	// aload_0 ...
+				+ newTexts.get(ctx.compound_stmt());	// aload_0 ...
+		}
+
+		if(isVoidF(ctx)) {
+			stmt += "return" + "\n";
 		}
 
 		newTexts.put(ctx, stmt);
 	}
-	
 
 	private String funcHeader(MiniCParser.Fun_declContext ctx, String fname) {
 		return ".method public static " + symbolTable.getFunSpecStr(fname) + "\n"	
 				+ "\t" + ".limit stack " 	+ getStackSize(ctx) + "\n"
 				+ "\t" + ".limit locals " 	+ getLocalVarSize(ctx) + "\n";
 	}
-	
-	
-	
+
 	@Override
 	public void exitVar_decl(MiniCParser.Var_declContext ctx) {
 		String varName = ctx.IDENT().getText();
@@ -208,8 +204,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		}
 		newTexts.put(ctx, varDecl);
 	}
-	
-	
+
 	@Override
 	public void exitLocal_decl(MiniCParser.Local_declContext ctx) {
 		String varDecl = "";
@@ -224,7 +219,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		newTexts.put(ctx, varDecl);
 	}
 
-	
 	// compound_stmt	: '{' local_decl* stmt* '}'
 	@Override
 	public void exitCompound_stmt(MiniCParser.Compound_stmtContext ctx) {
@@ -273,8 +267,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		
 		newTexts.put(ctx, stmt);
 	}
-	
-	
+
 	// return_stmt	: RETURN ';' | RETURN expr ';'
 	@Override
 	public void exitReturn_stmt(MiniCParser.Return_stmtContext ctx) {
@@ -291,7 +284,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		newTexts.put(ctx, stmt);
 	}
 
-	
 	@Override
 	public void exitExpr(MiniCParser.ExprContext ctx) {
 		String expr = "";
@@ -342,7 +334,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		newTexts.put(ctx, expr);
 	}
 
-
 	private String handleUnaryExpr(MiniCParser.ExprContext ctx, String expr) {
 		String l1 = symbolTable.newLabel();
 		String l2 = symbolTable.newLabel();
@@ -370,7 +361,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		}
 		return expr;
 	}
-
 
 	private String handleBinExpr(MiniCParser.ExprContext ctx, String expr) {
 		String l2 = symbolTable.newLabel();
@@ -461,6 +451,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		}
 		return expr;
 	}
+
 	private String handleFunCall(MiniCParser.ExprContext ctx, String expr) {
 		String fname = getFunName(ctx);		
 
@@ -474,19 +465,16 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		}	
 		
 		return expr;
-			
 	}
 
 	// args	: expr (',' expr)* | ;
 	@Override
 	public void exitArgs(MiniCParser.ArgsContext ctx) {
-
-		String argsStr = "\n";
+		String argsStr = "";
 		
 		for (int i=0; i < ctx.expr().size() ; i++) {
 			argsStr += newTexts.get(ctx.expr(i)) ; 
 		}		
 		newTexts.put(ctx, argsStr);
 	}
-
 }
