@@ -278,7 +278,17 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	// return_stmt	: RETURN ';' | RETURN expr ';'
 	@Override
 	public void exitReturn_stmt(MiniCParser.Return_stmtContext ctx) {
-			// <(4) Fill here>
+		// <(4) Fill here>
+		String stmt = "";
+
+		if(isIntReturn(ctx)) {
+			stmt += newTexts.get(ctx.expr()) + "\n"
+				+ "ireturn" + "\n";
+		} else if(isVoidReturn(ctx)) {
+			stmt += "return" + "\n";
+		}
+
+		newTexts.put(ctx, stmt);
 	}
 
 	
