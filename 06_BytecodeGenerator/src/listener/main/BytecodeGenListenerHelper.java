@@ -122,10 +122,12 @@ public class BytecodeGenListenerHelper {
 	
 	static String getClassProlog() {
 		// <(6) Fill in>
-		return ".class public Test ....." + "\n"
-			+ "..." + "\n"
-			+ "invokenonvirtual java/lang/Object/<init>()" + "\n"
-			+ "return" + "\n"
+		return ".class public Test" + "\n"
+			+ ".super java/lang/Object" + "\n"
+			+ ".method public <init>()V" + "\n"
+			+ "\t" + "aload_0"
+			+ "\t" + "invokenonvirtual java/lang/Object/<init>()" + "\n"
+			+ "\t" + "return" + "\n"
 			+ ".end method" + "\n";
 	}
 	
