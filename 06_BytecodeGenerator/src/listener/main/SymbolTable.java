@@ -11,6 +11,9 @@ import generated.MiniCParser.ParamsContext;
 import generated.MiniCParser.Type_specContext;
 import generated.MiniCParser.Var_declContext;
 import listener.main.SymbolTable.Type;
+
+import javax.xml.validation.Validator;
+
 import static listener.main.BytecodeGenListenerHelper.*;
 
 
@@ -62,24 +65,31 @@ public class SymbolTable {
 	}
 	
 	void putLocalVar(String varname, Type type){
-		//<Fill here>
+		//<(0) Fill here>
+		VarInfo var = new VarInfo(type, _localVarID++);
+		_lsymtable.put(varname, var);
 	}
 	
 	void putGlobalVar(String varname, Type type){
-		//<Fill here>
+		//<(1) Fill here>
+		VarInfo var = new VarInfo(type, _globalVarID++);
+		_gsymtable.put(varname, var);
 	}
 	
 	void putLocalVarWithInitVal(String varname, Type type, int initVar){
-		//<Fill here>
+		//<(2) Fill here>
+		VarInfo var = new VarInfo(type, _localVarID++, initVar);
+		_lsymtable.put(varname, var);
 	}
 	void putGlobalVarWithInitVal(String varname, Type type, int initVar){
-		//<Fill here>
-	
+		//<(3) Fill here>
+		VarInfo var = new VarInfo(type, _globalVarID++, initVar);
+		_gsymtable.put(varname, var);
 	}
 	
 	void putParams(MiniCParser.ParamsContext params) {
 		for(int i = 0; i < params.param().size(); i++) {
-		//<Fill here>
+		//<(4) Fill here>
 		}
 	}
 	
@@ -94,11 +104,11 @@ public class SymbolTable {
 	}
 	
 	public String getFunSpecStr(String fname) {		
-		// <Fill here>
+		// <(5) Fill here>
 	}
 
 	public String getFunSpecStr(Fun_declContext ctx) {
-		// <Fill here>	
+		// <(6) Fill here>
 	}
 	
 	public String putFunSpecStr(Fun_declContext ctx) {
@@ -107,7 +117,7 @@ public class SymbolTable {
 		String rtype = "";
 		String res = "";
 		
-		// <Fill here>	
+		// <(7) Fill here>
 		
 		res =  fname + "(" + argtype + ")" + rtype;
 		
@@ -119,7 +129,7 @@ public class SymbolTable {
 	}
 	
 	String getVarId(String name){
-		// <Fill here>	
+		// <(8) Fill here>
 	}
 	
 	Type getVarType(String name){
@@ -146,7 +156,7 @@ public class SymbolTable {
 
 	// global
 	public String getVarId(Var_declContext ctx) {
-		// <Fill here>	
+		// <(9) Fill here>
 	}
 
 	// local
