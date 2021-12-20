@@ -89,7 +89,26 @@ public class SymbolTable {
 	
 	void putParams(MiniCParser.ParamsContext params) {
 		for(int i = 0; i < params.param().size(); i++) {
-		//<(4) Fill here>
+			//<(4) Fill here>
+
+			// Use BytecodeGenListenerHelper's Method to get param name
+			String varname = getParamName(params.param(i));
+			Type vartype = null;
+
+			// `type_spec` of param must be int
+			if(getTypeText(params.param(i).type_spec()).equals("int")) {
+				
+				// If type of param is int array
+				if(isArrayParamDecl(params.param(i))) {
+					vartype = Type.INTARRAY;
+
+				// If type of param is int
+				} else {
+					vartype = Type.INT;
+				}
+			}
+
+			putLocalVar(varname, vartype);
 		}
 	}
 	
