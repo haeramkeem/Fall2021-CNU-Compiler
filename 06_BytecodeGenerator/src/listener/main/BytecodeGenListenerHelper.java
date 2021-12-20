@@ -43,11 +43,11 @@ public class BytecodeGenListenerHelper {
 	}
 
 	// <local vars>
-	// local_decl	: type_spec IDENT '[' LITERAL ']' ';'
 	static int initVal(Local_declContext ctx) {
 		return Integer.parseInt(ctx.LITERAL().getText());
 	}
 
+	// local_decl	: type_spec IDENT '[' LITERAL ']' ';'
 	static boolean isArrayDecl(Local_declContext ctx) {
 		return ctx.getChildCount() == 6;
 	}
