@@ -157,9 +157,9 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 
 		if(ctx.getChildCount() == 5) {
 			stmt += lbeg + ": " + "\n"				// LBEG:
-				+ newTexts.get(ctx.expr()) + "\n"	// ...Expr...
+				+ newTexts.get(ctx.expr())			// ...Expr...
 				+ "ifeq " + lend + "\n"				// if(Expr == false) goto LEND
-				+ newTexts.get(ctx.stmt()) + "\n"	// ...Stmt...
+				+ newTexts.get(ctx.stmt())			// ...Stmt...
 				+ "goto " + lbeg + "\n"				// goto LBEG
 				+ lend + ": " + "\n";				// LEND:
 		}
@@ -306,7 +306,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				expr += "ldc " + literalStr + " \n";
 			}
 		} else if(ctx.getChildCount() == 2) { // UnaryOperation
-			expr = handleUnaryExpr(ctx, newTexts.get(ctx) + expr);			
+			expr = handleUnaryExpr(ctx, expr);
 		} else if(ctx.getChildCount() == 3) {	 
 			if(ctx.getChild(0).getText().equals("(")) { 		// '(' expr ')'
 				expr = newTexts.get(ctx.expr(0));
@@ -415,7 +415,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 						+ l2 + ": " + "ldc 1" + "\n"
 						+ lend + ": " + "\n";
 				break;
-
 			case ">=":
 				// <(7) Fill here>
 				expr += "isub " + "\n"
@@ -425,7 +424,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 						+ l2 + ": " + "ldc 1" + "\n"
 						+ lend + ": " + "\n";
 				break;
-
 			case ">":
 				// <(8) Fill here>
 				expr += "isub " + "\n"
@@ -435,7 +433,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 						+ l2 + ": " + "ldc 1" + "\n"
 						+ lend + ": " + "\n";
 				break;
-
 			case "and":
 				expr +=  "ifne "+ lend + "\n"			// If expr(0) is true, let expr(1) decide.
 						+ "pop" + "\n" + "ldc 0" + "\n"	// Else, result must be false.
@@ -447,7 +444,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 						+ "pop" + "\n" + "ldc 1" + "\n"	// Else, result must be true.
 						+ lend + ": " + "\n";
 				break;
-
 		}
 		return expr;
 	}
