@@ -79,11 +79,13 @@ public class BytecodeGenListenerHelper {
 
 	static String getTypeText(Type_specContext typespec) {
 		// <(1) Fill in>
+		return typespec.getText();
 	}
 
 	// params
 	static String getParamName(ParamContext param) {
 		// <(2) Fill in>
+		return param.IDENT().getText();
 	}
 	
 	static String getParamTypesText(ParamsContext params) {
@@ -98,14 +100,17 @@ public class BytecodeGenListenerHelper {
 	
 	static String getLocalVarName(Local_declContext local_decl) {
 		// <(3) Fill in>
+		return local_decl.IDENT().getText();
 	}
 	
 	static String getFunName(Fun_declContext ctx) {
 		// <(4) Fill in>
+		return ctx.IDENT().getText();
 	}
 	
 	static String getFunName(ExprContext ctx) {
 		// <(5) Fill in>
+		return ctx.IDENT().getText();
 	}
 	
 	static boolean noElse(If_stmtContext ctx) {
