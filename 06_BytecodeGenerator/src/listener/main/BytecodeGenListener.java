@@ -154,7 +154,21 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	// while_stmt	: WHILE '(' expr ')' stmt
 	@Override
 	public void exitWhile_stmt(MiniCParser.While_stmtContext ctx) {
-			// <(1) Fill here!>
+		// <(1) Fill here!>
+		String stmt = "";
+		String lbeg = symbolTable.newLabel();
+		String lend = symbolTable.newLabel();
+
+		if(ctx.getChildCount() == 5) {
+			stmt += lbeg + ": " + "\n"				// LBEG:
+				+ newTexts.get(ctx.expr()) + "\n"	// ...Expr...
+				+ "ifeq " + lend + "\n"				// if(Expr == false) goto LEND
+				+ newTexts.get(ctx.stmt()) + "\n"	// ...Stmt...
+				+ "goto " + lbeg + "\n"				// goto LBEG
+				+ lend + ": " + "\n";				// LEND:
+		}
+
+		newTexts.put(ctx, stmt);
 	}
 	
 
@@ -211,7 +225,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	@Override
 	public void exitIf_stmt(MiniCParser.If_stmtContext ctx) {
 		String stmt = "";
-		String condExpr= newTexts.get(ctx.expr());
+		String condExpr = newTexts.get(ctx.expr());
 		String thenStmt = newTexts.get(ctx.stmt(0));
 		
 		String lend = symbolTable.newLabel();
@@ -222,7 +236,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 			stmt += condExpr + "\n"
 				+ "ifeq " + lend + "\n"
 				+ thenStmt + "\n"
-				+ lend + ":"  + "\n";	
+				+ lend + ": " + "\n";
 		}
 		else {
 			String elseStmt = newTexts.get(ctx.stmt(1));
