@@ -130,7 +130,7 @@ public class SymbolTable {
 	public String getFunSpecStr(Fun_declContext ctx) {
 		// <(6) Fill here>
 		String fname = getFunName(ctx);
-		return _fsymtable.get(fname).sigStr;
+		return getFunSpecStr(fname);
 	}
 	
 	public String putFunSpecStr(Fun_declContext ctx) {

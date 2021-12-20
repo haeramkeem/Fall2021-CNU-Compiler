@@ -17,7 +17,7 @@ import listener.main.SymbolTable.VarInfo;
 public class BytecodeGenListenerHelper {
 	
 	// <boolean functions>
-	
+	// fun_decl	: type_spec IDENT '(' params ')' compound_stmt
 	static boolean isFunDecl(MiniCParser.ProgramContext ctx, int i) {
 		return ctx.getChild(i).getChild(0) instanceof MiniCParser.Fun_declContext;
 	}
@@ -36,6 +36,7 @@ public class BytecodeGenListenerHelper {
 	static boolean isDeclWithInit(Var_declContext ctx) {
 		return ctx.getChildCount() == 5 ;
 	}
+
 	// var_decl	: type_spec IDENT '[' LITERAL ']' ';'
 	static boolean isArrayDecl(Var_declContext ctx) {
 		return ctx.getChildCount() == 6;
@@ -56,13 +57,13 @@ public class BytecodeGenListenerHelper {
 	}
 	
 	static boolean isVoidF(Fun_declContext ctx) {
-			// <Fill in>
+		// <(0) Fill in>
+		return getTypeText(ctx.type_spec()).equals("void");
 	}
 	
 	static boolean isIntReturn(MiniCParser.Return_stmtContext ctx) {
 		return ctx.getChildCount() ==3;
 	}
-
 
 	static boolean isVoidReturn(MiniCParser.Return_stmtContext ctx) {
 		return ctx.getChildCount() == 2;
@@ -75,13 +76,14 @@ public class BytecodeGenListenerHelper {
 	static String getLocalVarSize(Fun_declContext ctx) {
 		return "32";
 	}
+
 	static String getTypeText(Type_specContext typespec) {
-			// <Fill in>
+		// <(1) Fill in>
 	}
 
 	// params
 	static String getParamName(ParamContext param) {
-		// <Fill in>
+		// <(2) Fill in>
 	}
 	
 	static String getParamTypesText(ParamsContext params) {
@@ -95,15 +97,15 @@ public class BytecodeGenListenerHelper {
 	}
 	
 	static String getLocalVarName(Local_declContext local_decl) {
-		// <Fill in>
+		// <(3) Fill in>
 	}
 	
 	static String getFunName(Fun_declContext ctx) {
-		// <Fill in>
+		// <(4) Fill in>
 	}
 	
 	static String getFunName(ExprContext ctx) {
-		// <Fill in>
+		// <(5) Fill in>
 	}
 	
 	static boolean noElse(If_stmtContext ctx) {
@@ -111,6 +113,7 @@ public class BytecodeGenListenerHelper {
 	}
 	
 	static String getFunProlog() {
+		// <(6) Fill in>
 		// return ".class public Test .....
 		// ...
 		// invokenonvirtual java/lang/Object/<init>()
