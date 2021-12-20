@@ -30,7 +30,26 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	int label = 0;
 	
 	// program	: decl+
-	
+	@Override
+	public void exitProgram(MiniCParser.ProgramContext ctx) {
+		String classProlog = getFunProlog();
+
+		String fun_decl = "", var_decl = "";
+
+		for(int i = 0; i < ctx.getChildCount(); i++) {
+			if(isFunDecl(ctx, i))
+				fun_decl += newTexts.get(ctx.decl(i));
+			else
+				var_decl += newTexts.get(ctx.decl(i));
+		}
+
+		newTexts.put(ctx, classProlog + var_decl + fun_decl);
+
+		System.out.println(newTexts.get(ctx));
+	}
+
+
+	// fun_decl	: type_spec IDENT '(' params ')' compound_stmt ;
 	@Override
 	public void enterFun_decl(MiniCParser.Fun_declContext ctx) {
 		symbolTable.initFunDecl();
@@ -48,7 +67,9 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	}
 
 	
-	// var_decl	: type_spec IDENT ';' | type_spec IDENT '=' LITERAL ';'|type_spec IDENT '[' LITERAL ']' ';'
+	// var_decl	: type_spec IDENT ';'
+	// 			| type_spec IDENT '=' LITERAL ';'
+	// 			| type_spec IDENT '[' LITERAL ']' ';'
 	@Override
 	public void enterVar_decl(MiniCParser.Var_declContext ctx) {
 		String varName = ctx.IDENT().getText();
@@ -64,7 +85,10 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		}
 	}
 
-	
+
+	//	local_decl	: type_spec IDENT ';'
+	//				| type_spec IDENT '=' LITERAL ';'
+	//				| type_spec IDENT '[' LITERAL ']' ';'	;
 	@Override
 	public void enterLocal_decl(MiniCParser.Local_declContext ctx) {			
 		if (isArrayDecl(ctx)) {
@@ -78,26 +102,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		}	
 	}
 
-	
-	@Override
-	public void exitProgram(MiniCParser.ProgramContext ctx) {
-		String classProlog = getFunProlog();
-		
-		String fun_decl = "", var_decl = "";
-		
-		for(int i = 0; i < ctx.getChildCount(); i++) {
-			if(isFunDecl(ctx, i))
-				fun_decl += newTexts.get(ctx.decl(i));
-			else
-				var_decl += newTexts.get(ctx.decl(i));
-		}
-		
-		newTexts.put(ctx, classProlog + var_decl + fun_decl);
-		
-		System.out.println(newTexts.get(ctx));
-	}	
-	
-	
+
 	// decl	: var_decl | fun_decl
 	@Override
 	public void exitDecl(MiniCParser.DeclContext ctx) {
@@ -122,8 +127,15 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				stmt += newTexts.get(ctx.expr_stmt());
 			else if(ctx.compound_stmt() != null)	// compound_stmt
 				stmt += newTexts.get(ctx.compound_stmt());
-			// <(0) Fill here>				
-	}
+			// <(0) Fill here>
+			else if(ctx.if_stmt() != null) {
+				stmt += newTexts.get(ctx.if_stmt());
+			} else if(ctx.while_stmt() != null) {
+				stmt += newTexts.get(ctx.while_stmt());
+			} else if(ctx.return_stmt() != null) {
+				stmt += newTexts.get(ctx.return_stmt());
+			}
+		}
 		newTexts.put(ctx, stmt);
 	}
 	
