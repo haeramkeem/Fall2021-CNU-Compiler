@@ -97,7 +97,7 @@ public class SymbolTable {
 
 			// `type_spec` of param must be int
 			if(getTypeText(params.param(i).type_spec()).equals("int")) {
-				
+
 				// If type of param is int array
 				if(isArrayParamDecl(params.param(i))) {
 					vartype = Type.INTARRAY;
@@ -124,10 +124,13 @@ public class SymbolTable {
 	
 	public String getFunSpecStr(String fname) {		
 		// <(5) Fill here>
+		return _fsymtable.get(fname).sigStr;
 	}
 
 	public String getFunSpecStr(Fun_declContext ctx) {
 		// <(6) Fill here>
+		String fname = getFunName(ctx);
+		return _fsymtable.get(fname).sigStr;
 	}
 	
 	public String putFunSpecStr(Fun_declContext ctx) {
@@ -137,8 +140,10 @@ public class SymbolTable {
 		String res = "";
 		
 		// <(7) Fill here>
+		argtype += getParamTypesText(ctx.params());
+		rtype += getTypeText(ctx.type_spec());
 		
-		res =  fname + "(" + argtype + ")" + rtype;
+		res += fname + "(" + argtype + ")" + rtype;
 		
 		FInfo finfo = new FInfo();
 		finfo.sigStr = res;
