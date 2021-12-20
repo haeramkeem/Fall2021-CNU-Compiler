@@ -157,7 +157,8 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 			// <(1) Fill here!>
 	}
 	
-	
+
+	// fun_decl	: type_spec IDENT '(' params ')' compound_stmt ;
 	@Override
 	public void exitFun_decl(MiniCParser.Fun_declContext ctx) {
 			// <(2) Fill here!>
@@ -168,7 +169,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		return ".method public static " + symbolTable.getFunSpecStr(fname) + "\n"	
 				+ "\t" + ".limit stack " 	+ getStackSize(ctx) + "\n"
 				+ "\t" + ".limit locals " 	+ getLocalVarSize(ctx) + "\n";
-				 	
 	}
 	
 	
@@ -263,7 +263,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				//else	// Type int array => Later! skip now..
 				//	expr += "           lda " + symbolTable.get(ctx.IDENT().getText()).value + " \n";
 			} else if (ctx.LITERAL() != null) {
-					String literalStr = ctx.LITERAL().getText();
+				String literalStr = ctx.LITERAL().getText();
 				expr += "ldc " + literalStr + " \n";
 			}
 		} else if(ctx.getChildCount() == 2) { // UnaryOperation
@@ -362,26 +362,53 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				break;
 			case "<=":
 				// <(5) Fill here>
+				expr += "isub " + "\n"
+						+ "ifle l2"+ "\n"				// Expr1 - Expr2 <= 0
+						+ "ldc 0" + "\n"
+						+ "goto " + lend + "\n"
+						+ l2 + ": " + "ldc 1" + "\n"
+						+ lend + ": " + "\n";
 				break;
 			case "<":
 				// <(6) Fill here>
+				expr += "isub " + "\n"
+						+ "iflt l2"+ "\n"				// Expr - Expr2 < 0
+						+ "ldc 0" + "\n"
+						+ "goto " + lend + "\n"
+						+ l2 + ": " + "ldc 1" + "\n"
+						+ lend + ": " + "\n";
 				break;
 
 			case ">=":
 				// <(7) Fill here>
-
+				expr += "isub " + "\n"
+						+ "ifge l2"+ "\n"				// Expr1 - Expr2 >= 0
+						+ "ldc 0" + "\n"
+						+ "goto " + lend + "\n"
+						+ l2 + ": " + "ldc 1" + "\n"
+						+ lend + ": " + "\n";
 				break;
 
 			case ">":
 				// <(8) Fill here>
+				expr += "isub " + "\n"
+						+ "ifgt l2"+ "\n"				// Expr1 - Expr2 > 0
+						+ "ldc 0" + "\n"
+						+ "goto " + lend + "\n"
+						+ l2 + ": " + "ldc 1" + "\n"
+						+ lend + ": " + "\n";
 				break;
 
 			case "and":
-				expr +=  "ifne "+ lend + "\n"
-						+ "pop" + "\n" + "ldc 0" + "\n"
-						+ lend + ": " + "\n"; break;
+				expr +=  "ifne "+ lend + "\n"			// If Expr1 is true, let Expr2 decide.
+						+ "pop" + "\n" + "ldc 0" + "\n"	// Else, result must be false.
+						+ lend + ": " + "\n";
+				break;
 			case "or":
 				// <(9) Fill here>
+				expr +=  "ifeq "+ lend + "\n"			// If Expr1 is false, let Expr2 decide.
+						+ "pop" + "\n" + "ldc 1" + "\n"	// Else, result must be true.
+						+ lend + ": " + "\n";
 				break;
 
 		}

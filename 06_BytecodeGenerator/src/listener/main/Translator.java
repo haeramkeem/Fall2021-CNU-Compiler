@@ -40,13 +40,13 @@ public class Translator {
 		ParseTreeWalker walker = new ParseTreeWalker();
 		switch (getOption(args)) {
 			case PRETTYPRINT : 		
-				walker.walk(new MiniCPrintListener(), tree );
+				// walker.walk(new MiniCPrintListener(), tree );
 				break;
 			case BYTECODEGEN:
 				walker.walk(new BytecodeGenListener(), tree );
 				break;
 			case UCODEGEN:
-				walker.walk(new UCodeGenListener(), tree );
+				// walker.walk(new UCodeGenListener(), tree );
 				break;
 			default:
 				break;
