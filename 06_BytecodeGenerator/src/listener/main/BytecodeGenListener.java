@@ -172,10 +172,20 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	}
 	
 
-	// fun_decl	: type_spec IDENT '(' params ')' compound_stmt ;
+	// fun_decl	: type_spec IDENT '(' params ')' compound_stmt
 	@Override
 	public void exitFun_decl(MiniCParser.Fun_declContext ctx) {
-			// <(2) Fill here!>
+		// <(2) Fill here!>
+		String fname = getFunName(ctx);
+		String fheader = funcHeader(ctx, fname);
+
+		String stmt = "";
+		if(ctx.getChildCount() == 6) {
+			stmt += fheader + "\n"							// .method public static ...
+				+ newTexts.get(ctx.compound_stmt()) + "\n";	// aload_0 ...
+		}
+
+		newTexts.put(ctx, stmt);
 	}
 	
 
