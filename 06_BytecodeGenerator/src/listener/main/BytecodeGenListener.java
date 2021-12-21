@@ -249,14 +249,14 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		
 		
 		if(noElse(ctx)) {		
-			stmt += condExpr + "\n"
+			stmt += condExpr
 				+ "ifeq " + lend + "\n"
 				+ thenStmt + "\n"
 				+ lend + ": " + "\n";
 		}
 		else {
 			String elseStmt = newTexts.get(ctx.stmt(1));
-			stmt += condExpr + "\n"
+			stmt += condExpr
 					+ "ifeq " + lelse + "\n"
 					+ thenStmt + "\n"
 					+ "goto " + lend + "\n"
