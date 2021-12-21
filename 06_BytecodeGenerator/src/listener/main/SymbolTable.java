@@ -96,7 +96,7 @@ public class SymbolTable {
 			Type vartype = null;
 
 			// `type_spec` of param must be int
-			if(getTypeText(params.param(i).type_spec()).equals("int")) {
+			if(getTypeText(params.param(i).type_spec()).equals("I")) {
 
 				// If type of param is int array
 				if(isArrayParamDecl(params.param(i))) {
