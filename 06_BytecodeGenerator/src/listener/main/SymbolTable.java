@@ -95,14 +95,11 @@ public class SymbolTable {
 			String varname = getParamName(params.param(i));
 			Type vartype = null;
 
-			// `type_spec` of param must be int
+			// Determine type of parameter
+			//		`type_spec` of param must be int
 			if(getTypeText(params.param(i).type_spec()).equals("I")) {
-
-				// If type of param is int array
 				if(isArrayParamDecl(params.param(i))) {
 					vartype = Type.INTARRAY;
-
-				// If type of param is int
 				} else {
 					vartype = Type.INT;
 				}
@@ -143,6 +140,7 @@ public class SymbolTable {
 
 		// Use BytecodeGenListenerHelper's Method to get param type text
 		argtype += getParamTypesText(ctx.params());
+
 		// Use BytecodeGenListenerHelper's Method to get return type text
 		rtype += getTypeText(ctx.type_spec());
 		
