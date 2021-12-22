@@ -63,30 +63,40 @@ public class SymbolTable {
 		_labelID = 0;
 		_tempVarID = 32;		
 	}
-	
+
+	// Put variable into local symbol table
 	void putLocalVar(String varname, Type type){
 		//<(0) Fill here>
+
+		// Use Initializer instead of `putLocalVarWithInitVal`
 		VarInfo var = new VarInfo(type, _localVarID++);
 		_lsymtable.put(varname, var);
 	}
-	
+
+	// Put variable into global symbol table
 	void putGlobalVar(String varname, Type type){
 		//<(1) Fill here>
+
+		// Use Initializer instead of `putGlobalVarWithInitVal`
 		VarInfo var = new VarInfo(type, _globalVarID++);
 		_gsymtable.put(varname, var);
 	}
-	
+
+	// Put variable into local symbol table with init value
 	void putLocalVarWithInitVal(String varname, Type type, int initVar){
 		//<(2) Fill here>
 		VarInfo var = new VarInfo(type, _localVarID++, initVar);
 		_lsymtable.put(varname, var);
 	}
+
+	// Put variable into global symbol table with init value
 	void putGlobalVarWithInitVal(String varname, Type type, int initVar){
 		//<(3) Fill here>
 		VarInfo var = new VarInfo(type, _globalVarID++, initVar);
 		_gsymtable.put(varname, var);
 	}
-	
+
+	// Put parameters into local symbol table
 	void putParams(MiniCParser.ParamsContext params) {
 		for(int i = 0; i < params.param().size(); i++) {
 			//<(4) Fill here>
@@ -118,18 +128,21 @@ public class SymbolTable {
 		_fsymtable.put("_print", printlninfo);
 		_fsymtable.put("main", maininfo);
 	}
-	
+
+	// Get specification of function by function name
 	public String getFunSpecStr(String fname) {		
 		// <(5) Fill here>
 		return _fsymtable.get(fname).sigStr;
 	}
 
+	// Get specification of function by function declaration
 	public String getFunSpecStr(Fun_declContext ctx) {
 		// <(6) Fill here>
 		String fname = getFunName(ctx);
 		return getFunSpecStr(fname);
 	}
-	
+
+	// Put specification of function by function declaration
 	public String putFunSpecStr(Fun_declContext ctx) {
 		String fname = getFunName(ctx);
 		String argtype = "";	
@@ -152,19 +165,25 @@ public class SymbolTable {
 		
 		return res;
 	}
-	
+
+	// Get variable id from symbol table by variable name
 	String getVarId(String name){
 		// <(8) Fill here>
+
+		//	Trying to find variable in local symbol table
 		VarInfo lvar = _lsymtable.get(name);
 		if (lvar != null) {
 			return "" + lvar.id;
 		}
 
+		// 	When variable is not found in local symbol table,
+		//		Trying to find it in global symbol table.
 		VarInfo gvar = _gsymtable.get(name);
 		if (gvar != null) {
 			return "" + gvar.id;
 		}
 
+		//	When found nothing
 		return null;
 	}
 	
@@ -190,7 +209,7 @@ public class SymbolTable {
 		return id + _tempVarID--;
 	}
 
-	// global
+	// Get global variable id
 	public String getVarId(Var_declContext ctx) {
 		// <(9) Fill here>
 		String sname = "";

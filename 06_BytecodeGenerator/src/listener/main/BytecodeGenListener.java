@@ -119,16 +119,16 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		String stmt = "";
 		if(ctx.getChildCount() > 0)
 		{
-			if(ctx.expr_stmt() != null)				// expr_stmt
+			if(ctx.expr_stmt() != null)						// expr_stmt
 				stmt += newTexts.get(ctx.expr_stmt());
-			else if(ctx.compound_stmt() != null)	// compound_stmt
+			else if(ctx.compound_stmt() != null)			// compound_stmt
 				stmt += newTexts.get(ctx.compound_stmt());
 			// <(0) Fill here>
-			else if(ctx.if_stmt() != null) {
+			else if(ctx.if_stmt() != null) {				// if_stmt
 				stmt += newTexts.get(ctx.if_stmt());
-			} else if(ctx.while_stmt() != null) {
+			} else if(ctx.while_stmt() != null) {			// while_stmt
 				stmt += newTexts.get(ctx.while_stmt());
-			} else if(ctx.return_stmt() != null) {
+			} else if(ctx.return_stmt() != null) {			// return_stmt
 				stmt += newTexts.get(ctx.return_stmt());
 			}
 		}
@@ -152,8 +152,8 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	public void exitWhile_stmt(MiniCParser.While_stmtContext ctx) {
 		// <(1) Fill here!>
 		String stmt = "";
-		String lbeg = symbolTable.newLabel();
-		String lend = symbolTable.newLabel();
+		String lbeg = symbolTable.newLabel();		// Label for beginning of the loop
+		String lend = symbolTable.newLabel();		// Label for end of the loop
 
 		if(ctx.getChildCount() == 5) {
 			stmt += lbeg + ": " + "\n"				// LBEG:
@@ -171,17 +171,15 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	@Override
 	public void exitFun_decl(MiniCParser.Fun_declContext ctx) {
 		// <(2) Fill here!>
+		String stmt = "";
 		String fname = getFunName(ctx);
 		String fheader = funcHeader(ctx, fname);
 
-		String stmt = "";
-		if(ctx.getChildCount() == 6) {
-			stmt += fheader								// .method public static ...
+		stmt += fheader									// .method public static ...
 				+ newTexts.get(ctx.compound_stmt());	// aload_0 ...
-		}
 
 		if(isVoidF(ctx)) {
-			stmt += "return" + "\n";					// Add `return` when void-return function
+			stmt += "return" + "\n";					// Add `return` when function's return type is void
 		}
 
 		stmt += ".end method" + "\n";					// .end method
@@ -276,10 +274,10 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		String stmt = "";
 
 		if(isIntReturn(ctx)) {
-			stmt += newTexts.get(ctx.expr())
-				+ "ireturn" + "\n";
+			stmt += newTexts.get(ctx.expr())	// Put bytecode of `expr(0)`
+				+ "ireturn" + "\n";				// return integer
 		} else if(isVoidReturn(ctx)) {
-			stmt += "return" + "\n";
+			stmt += "return" + "\n";			// return nothing
 		}
 
 		newTexts.put(ctx, stmt);
@@ -400,49 +398,49 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				break;
 			case "<=":
 				// <(5) Fill here>
-				expr += "isub " + "\n"
-						+ "ifle " + l2 + "\n"				// expr(0) - expr(1) <= 0
-						+ "ldc 0" + "\n"
-						+ "goto " + lend + "\n"
-						+ l2 + ": " + "ldc 1" + "\n"
-						+ lend + ": " + "\n";
+				expr += "isub " + "\n"						// t1 = expr(0) - expr(1)
+						+ "ifle " + l2 + "\n"				// if t1 <= 0, then goto true branch
+						+ "ldc 0" + "\n"					// put false to stack
+						+ "goto " + lend + "\n"				// goto end of condition
+						+ l2 + ": " + "ldc 1" + "\n"		// true branch: put true to stack
+						+ lend + ": " + "\n";				// end of condition:
 				break;
 			case "<":
 				// <(6) Fill here>
-				expr += "isub " + "\n"
-						+ "iflt " + l2 + "\n"				// expr(0) - expr(1) < 0
-						+ "ldc 0" + "\n"
-						+ "goto " + lend + "\n"
-						+ l2 + ": " + "ldc 1" + "\n"
-						+ lend + ": " + "\n";
+				expr += "isub " + "\n"						// t1 = expr(0) - expr(1)
+						+ "iflt " + l2 + "\n"				// if t1 < 0, then goto true branch
+						+ "ldc 0" + "\n"					// put false to stack
+						+ "goto " + lend + "\n"				// goto end of condition
+						+ l2 + ": " + "ldc 1" + "\n"		// true branch: put true to stack
+						+ lend + ": " + "\n";				// end of condition:
 				break;
 			case ">=":
 				// <(7) Fill here>
-				expr += "isub " + "\n"
-						+ "ifge " + l2 + "\n"				// expr(0) - expr(1) >= 0
-						+ "ldc 0" + "\n"
-						+ "goto " + lend + "\n"
-						+ l2 + ": " + "ldc 1" + "\n"
-						+ lend + ": " + "\n";
+				expr += "isub " + "\n"						// t1 = expr(0) - expr(1)
+						+ "ifge " + l2 + "\n"				// if t1 >= 0, then goto true branch
+						+ "ldc 0" + "\n"					// put false to stack
+						+ "goto " + lend + "\n"				// goto end of condition
+						+ l2 + ": " + "ldc 1" + "\n"		// true branch: put true to stack
+						+ lend + ": " + "\n";				// end of condition:
 				break;
 			case ">":
 				// <(8) Fill here>
-				expr += "isub " + "\n"
-						+ "ifgt " + l2 + "\n"				// expr(0) - expr(1) > 0
-						+ "ldc 0" + "\n"
-						+ "goto " + lend + "\n"
-						+ l2 + ": " + "ldc 1" + "\n"
-						+ lend + ": " + "\n";
+				expr += "isub " + "\n"						// t1 = expr(0) - expr(1)
+						+ "ifgt " + l2 + "\n"				// if t1 > 0, then goto true branch
+						+ "ldc 0" + "\n"					// put false to stack
+						+ "goto " + lend + "\n"				// goto end of condition
+						+ l2 + ": " + "ldc 1" + "\n"		// true branch: put true to stack
+						+ lend + ": " + "\n";				// end of condition:
 				break;
 			case "and":
-				expr +=  "ifne "+ lend + "\n"			// If expr(0) is true, let expr(1) decide.
-						+ "pop" + "\n" + "ldc 0" + "\n"	// Else, result must be false.
+				expr +=  "ifne "+ lend + "\n"				// If expr(0) is true, let expr(1) decide.
+						+ "pop" + "\n" + "ldc 0" + "\n"		// Else, result must be false.
 						+ lend + ": " + "\n";
 				break;
 			case "or":
 				// <(9) Fill here>
-				expr +=  "ifeq "+ lend + "\n"			// If expr(0) is false, let expr(1) decide.
-						+ "pop" + "\n" + "ldc 1" + "\n"	// Else, result must be true.
+				expr +=  "ifeq "+ lend + "\n"				// If expr(0) is false, let expr(1) decide.
+						+ "pop" + "\n" + "ldc 1" + "\n"		// Else, result must be true.
 						+ lend + ": " + "\n";
 				break;
 		}

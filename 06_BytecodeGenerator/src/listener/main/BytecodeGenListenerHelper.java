@@ -55,7 +55,8 @@ public class BytecodeGenListenerHelper {
 	static boolean isDeclWithInit(Local_declContext ctx) {
 		return ctx.getChildCount() == 5 ;
 	}
-	
+
+	// Check return type of function is void
 	static boolean isVoidF(Fun_declContext ctx) {
 		// <(0) Fill in>
 		return getTypeText(ctx.type_spec()).equals("V");
@@ -77,6 +78,9 @@ public class BytecodeGenListenerHelper {
 		return "32";
 	}
 
+	//	Get jasmine-like type text
+	//		int	=> I
+	//		void => V
 	static String getTypeText(Type_specContext typespec) {
 		// <(1) Fill in>
 		switch(typespec.getText()) {
@@ -86,7 +90,7 @@ public class BytecodeGenListenerHelper {
 		return "";
 	}
 
-	// params
+	// Get name of the parameter
 	static String getParamName(ParamContext param) {
 		// <(2) Fill in>
 		return param.IDENT().getText();
@@ -101,17 +105,20 @@ public class BytecodeGenListenerHelper {
 		}
 		return typeText;
 	}
-	
+
+	// Get name of the local variable
 	static String getLocalVarName(Local_declContext local_decl) {
 		// <(3) Fill in>
 		return local_decl.IDENT().getText();
 	}
-	
+
+	// Get name of the function from function declaration
 	static String getFunName(Fun_declContext ctx) {
 		// <(4) Fill in>
 		return ctx.IDENT().getText();
 	}
-	
+
+	// Get name of the function from function call
 	static String getFunName(ExprContext ctx) {
 		// <(5) Fill in>
 		return ctx.IDENT().getText();
@@ -120,7 +127,8 @@ public class BytecodeGenListenerHelper {
 	static boolean noElse(If_stmtContext ctx) {
 		return ctx.getChildCount() == 5;
 	}
-	
+
+	// Get class prolog
 	static String getClassProlog() {
 		// <(6) Fill in>
 		return ".class public Test" + "\n"
