@@ -97,10 +97,7 @@ public class BytecodeGenListenerHelper {
 		
 		for(int i = 0; i < params.param().size(); i++) {
 			MiniCParser.Type_specContext typespec = (MiniCParser.Type_specContext)  params.param(i).getChild(0);
-			typeText += getTypeText(typespec);
-			if(i + 1 != params.param().size()) {
-				typeText += ", ";
-			}
+			typeText += getTypeText(typespec) + ";";
 		}
 		return typeText;
 	}
@@ -130,7 +127,7 @@ public class BytecodeGenListenerHelper {
 			+ ".super java/lang/Object" + "\n"
 			+ ".method public <init>()V" + "\n"
 			+ "\t" + "aload_0"
-			+ "\t" + "invokenonvirtual java/lang/Object/<init>()" + "\n"
+			+ "\t" + "invokenonvirtual java/lang/Object/<init>()V" + "\n"
 			+ "\t" + "return" + "\n"
 			+ ".end method" + "\n";
 	}
