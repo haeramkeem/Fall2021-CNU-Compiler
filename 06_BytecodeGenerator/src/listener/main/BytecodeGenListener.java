@@ -176,13 +176,15 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 
 		String stmt = "";
 		if(ctx.getChildCount() == 6) {
-			stmt += fheader									// .method public static ...
+			stmt += fheader								// .method public static ...
 				+ newTexts.get(ctx.compound_stmt());	// aload_0 ...
 		}
 
 		if(isVoidF(ctx)) {
-			stmt += "return" + "\n";
+			stmt += "return" + "\n";					// Add `return` when void-return function
 		}
+
+		stmt += ".end method" + "\n";					// .end method
 
 		newTexts.put(ctx, stmt);
 	}
